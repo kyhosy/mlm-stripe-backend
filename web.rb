@@ -84,10 +84,14 @@ end
 post '/create_charge' do
   # Create the charge on Stripe's servers
   begin
+
+    # if request.content_type.include? 'application/json' and params.empty? 
+    #   payload = indifferent_params(JSON.parse(request.body.read))
+    # end
     charge = Stripe::Charge.create(
-      :amount => params[:amount], # this number should be in cents
+      :amount => params["amount"], # this number should be in cents
       :currency => "usd",
-      :source => params[:source],
+      :source => params["source"],
       :description => "Example Charge"
     )
   rescue Stripe::StripeError => e
